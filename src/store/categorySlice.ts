@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 import { ICategory } from '../types/category.types';
+import { ICategorySmallResponseDto } from '../types/category.types';
 
 const initialState: ICategory = {
   items: [],
@@ -15,8 +16,8 @@ export const fetchCategories = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.get(
-        `PUBLIC_API_URL/admin/categories?page=${page}&size=${size}`
+      const response = await axiosInstance.get(
+        `/admin/categories?page=${page}&size=${size}`
       );
       return response.data;
     } catch (error: any) {
