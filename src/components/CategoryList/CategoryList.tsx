@@ -1,18 +1,17 @@
 import React from 'react';
 import styles from './categoryList.module.scss';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchCategories } from '../store/categorySlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchCategories } from '../../store/categorySlice';
 
 const CategoryList: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.category.items);
 
   useEffect(() => {
-    dispatch(fetchCategories({ page: 0, size: 20 }));
+    dispatch(fetchCategories({ page: 0, size: 10 }));
   }, [dispatch]);
 
-  console.log(categories);
 
   return (
     <>

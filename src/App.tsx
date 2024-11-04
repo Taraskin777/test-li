@@ -1,5 +1,5 @@
-import React from 'react';
-import CategoryList from './components/CategoryList';
+import AddCategory from './components/AddCatForm/AddCategory';
+import CategoryList from './components/CategoryList/CategoryList';
 
 import './App.scss';
 
@@ -11,6 +11,7 @@ function App() {
       </header>
       <main className="App-main">
         <CategoryList />
+        <AddCategory />
       </main>
     </div>
   );
