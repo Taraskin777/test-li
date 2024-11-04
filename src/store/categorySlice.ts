@@ -45,6 +45,18 @@ export const createCategory = createAsyncThunk(
   }
 );
 
+export const deleteCategory = createAsyncThunk(
+  'category/deleteCategory',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/categories/${id}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || 'Error deleting category');
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'category',
   initialState,
@@ -63,9 +75,7 @@ const slice = createSlice({
       .addCase(fetchCategories.rejected, (state, action) => {
         console.error(action.payload);
       })
-      .addCase(createCategory.pending, (state) => {
-
-      })
+      .addCase(createCategory.pending, (state) => {})
       .addCase(
         createCategory.fulfilled,
         (state, action: PayloadAction<ICategorySmallResponseDto>) => {
@@ -73,6 +83,18 @@ const slice = createSlice({
         }
       )
       .addCase(createCategory.rejected, (state, action) => {
+        console.error(action.payload);
+      })
+      .addCase(deleteCategory.pending, (state) => {})
+      .addCase(
+        deleteCategory.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.items = state.items.filter(
+            (item) => item.id.toString() !== action.payload
+          );
+        }
+      )
+      .addCase(deleteCategory.rejected, (state, action) => {
         console.error(action.payload);
       });
   },
