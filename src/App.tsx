@@ -9,10 +9,12 @@ function App() {
       <header className="App-header">
         <h1>Test App</h1>
       </header>
-      <main className="App-main">
-        <CategoryList />
-        <AddCategory />
-      </main>
+      <div className="container">
+        <main className="App-main">
+          <CategoryList />
+          <AddCategory />
+        </main>
+      </div>
     </div>
   );
 }

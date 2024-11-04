@@ -9,3 +9,9 @@ export interface ICategory {
   hasNext: boolean;
   totalPages: number;
 }
+
+export interface INewCategory {
+  name: string;
+  description: string;
+  slug: string;
+}
