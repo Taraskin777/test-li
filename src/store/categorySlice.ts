@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '../axiosInstance';
-import { ICategory } from '../types/category.types';
-import { ICategorySmallResponseDto } from '../types/category.types';
+import { ICategory, ICategorySmallResponseDto } from '../types/category.types';
 
 const initialState: ICategory = {
   items: [],
@@ -28,6 +27,24 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const createCategory = createAsyncThunk(
+  'category/createCategory',
+  async (
+    categoryData: { name: string; description: string; slug: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axiosInstance.post(
+        '/admin/categories',
+        categoryData
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || 'Error creating category');
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'category',
   initialState,
@@ -45,10 +62,20 @@ const slice = createSlice({
       )
       .addCase(fetchCategories.rejected, (state, action) => {
         console.error(action.payload);
+      })
+      .addCase(createCategory.pending, (state) => {
+
+      })
+      .addCase(
+        createCategory.fulfilled,
+        (state, action: PayloadAction<ICategorySmallResponseDto>) => {
+          state.items.push(action.payload);
+        }
+      )
+      .addCase(createCategory.rejected, (state, action) => {
+        console.error(action.payload);
       });
   },
 });
-
-
 
 export default slice.reducer;
